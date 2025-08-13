@@ -10,7 +10,7 @@ MConnect TypeA is a comprehensive trading API that provides capabilities require
 
 ## Documentation
 
-- [MConnect API documentation](https://docs.mconnect.com)
+- [MConnect API documentation](https://tradingapi.mstock.com/)
 - [Examples](./examples/)
 
 ## Requirements
