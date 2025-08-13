@@ -1,0 +1,81 @@
+{
+  "name": "mconnecttypea",
+  "version": "1.0.0",
+  "description": "The official TypeScript/JavaScript client for MConnect TypeA Trading API",
+  "main": "dist/lib/index.js",
+  "types": "dist/lib/index.d.ts",
+  "module": "dist/lib/index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/lib/index.d.ts",
+      "import": "./dist/lib/index.js",
+      "require": "./dist/lib/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build",
+    "prepack": "npm run build",
+    "test": "npx ts-node test/test.ts",
+    "websocket": "npx ts-node test/websocket-stream.ts"
+  },
+  "keywords": [
+    "mconnect",
+    "typea",
+    "trading",
+    "api",
+    "typescript",
+    "javascript",
+    "websocket",
+    "market-data",
+    "orders",
+    "stock-trading",
+    "financial-api",
+    "real-time-data"
+  ],
+  "author": {
+    "name": "MConnect Team",
+    "email": "support@mconnect.com"
+  },
+  "license": "MIT",
+  "homepage": "https://www.npmjs.com/package/mconnecttypea",
+  "bugs": {
+    "url": "https://www.npmjs.com/package/mconnecttypea"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "mconnecttypea": "^1.0.0",
+    "ws": "^8.14.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/ws": "^8.5.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.0.0"
+  },
+  "peerDependencies": {
+    "typescript": ">=4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    }
+  },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://www.npmjs.com/package/mconnecttypea"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}
