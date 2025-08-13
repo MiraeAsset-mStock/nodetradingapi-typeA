@@ -213,10 +213,74 @@ console.log('Order book:', orderBook);
 | `loserGainer()` | Top gainers/losers |
 
 
-## Run unit tests
+## WebSocket Streaming
+
+The SDK includes real-time WebSocket streaming capabilities for live market data and order updates.
+
+### WebSocket Features
+- Real-time market data streaming
+- Live order and trade updates
+- Multiple subscription modes (LTP, Quote, Full)
+- Automatic reconnection handling
+- Event-driven architecture
+
+### WebSocket Dependencies
+- `ws`: WebSocket client library
+- `@types/ws`: TypeScript definitions for WebSocket
+
+### Running WebSocket Tests
 
 ```bash
-npm run test-mconnect
+# Run WebSocket streaming tests
+npm run websocket
+
+# Run REST API tests
+npm run test
+```
+
+### WebSocket Usage Example
+
+```typescript
+import { MTicker } from 'mconnecttypea';
+
+const ticker = new MTicker({
+  api_key: "your_api_key",
+  access_token: "your_access_token"
+});
+
+// Connect to WebSocket
+ticker.connect();
+
+// Event handlers
+ticker.onConnect = () => {
+  console.log('WebSocket connected');
+  ticker.sendLoginAfterConnect();
+  
+  // Subscribe to instruments
+  const tokens = [2885, 5633]; // RELIANCE, HDFCBANK
+  ticker.subscribe(tokens);
+  ticker.setMode('full', tokens);
+};
+
+ticker.onBroadcastReceived = (tick) => {
+  console.log('Market data:', {
+    token: tick.InstrumentToken,
+    ltp: tick.LastPrice,
+    volume: tick.Volume
+  });
+};
+
+ticker.onOrderTradeReceived = (order) => {
+  console.log('Order update:', order);
+};
+
+ticker.onError = (error) => {
+  console.error('WebSocket error:', error);
+};
+
+ticker.onClose = () => {
+  console.log('WebSocket disconnected');
+};
 ```
 
 ## A typical web application
@@ -233,9 +297,9 @@ Hence, in your web application, typically:
 
 ## Examples
 
-Check the `/examples` folder for detailed examples:
-- [REST API Usage](./examples/mconnect.ts)
-- [WebSocket Streaming](./examples/mticker.ts)
+Check the test files for detailed examples:
+- [REST API Usage](./test/test.ts)
+- [WebSocket Streaming](./test/websocket-stream.ts)
 
 ## Requirements
 
