@@ -1,6 +1,6 @@
 {
   "name": "mconnecttypea",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "The official TypeScript/JavaScript client for MConnect TypeA Trading API",
   "main": "dist/lib/index.js",
   "types": "dist/lib/index.d.ts",
