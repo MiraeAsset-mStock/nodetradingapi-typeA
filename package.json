@@ -1,0 +1,85 @@
+{
+  "name": "@mstock/mconnecta",
+  "version": "1.0.0",
+  "description": "The official TypeScript/JavaScript client for mStock mConnect TypeA Trading API",
+  "main": "dist/lib/index.js",
+  "types": "dist/lib/index.d.ts",
+  "module": "dist/lib/index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/lib/index.d.ts",
+      "import": "./dist/lib/index.js",
+      "require": "./dist/lib/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build",
+    "prepack": "npm run build",
+    "test": "npx ts-node test/test.ts",
+    "websocket": "npx ts-node test/websocket-stream.ts"
+  },
+  "keywords": [
+    "mconnect",
+    "typea",
+    "trading",
+    "api",
+    "typescript",
+    "javascript",
+    "websocket",
+    "market-data",
+    "mstock",
+    "stock-market",
+    "financial-api",
+    "real-time-data"
+  ],
+  "author": "mStock by Mirae Asset",
+  "license": "MIT",
+  "homepage": "https://github.com/MiraeAsset-mStock/nodetradingapi-typeA#readme",
+  "bugs": {
+    "url": "https://github.com/MiraeAsset-mStock/nodetradingapi-typeA/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "tsc": "^2.0.4",
+    "ws": "^8.14.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.19.123",
+    "@types/ws": "^8.18.1",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.9.2"
+  },
+  "peerDependencies": {
+    "typescript": ">=4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "package.json",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MiraeAsset-mStock/nodetradingapi-typeA.git"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "directories": {
+    "example": "examples",
+    "lib": "lib",
+    "constants": "constants",
+    "types": "types",
+    "test": "test"
+  }
+}
