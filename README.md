@@ -1,4 +1,4 @@
-# MConnect TypeA SDK
+# The mConnect TradingAPI TypeA TypeScript/JavaScript SDK
 
 [![npm version](https://badge.fury.io/js/mconnecttypea.svg)](https://www.npmjs.com/package/@mstock/mconnecta)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -10,7 +10,7 @@ MConnect TypeA is a comprehensive trading API that provides capabilities require
 
 ## Documentation
 
-- [MConnect API documentation](https://tradingapi.mstock.com/)
+- [mConnect API documentation](https://tradingapi.mstock.com/)
 - [Examples](./examples/)
 
 ## Requirements
