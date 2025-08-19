@@ -1,7 +1,7 @@
 {
-  "name": "@mstock/mconnecta",
+  "name": "@mstock-mirae-asset/nodetradingapi-typeA",
   "version": "1.0.0",
-  "description": "The official TypeScript/JavaScript client for mStock mConnect TypeA Trading API",
+  "description": "The official TypeScript/JavaScript client for mStock TypeA Trading API",
   "main": "dist/lib/index.js",
   "types": "dist/lib/index.d.ts",
   "module": "dist/lib/index.js",
