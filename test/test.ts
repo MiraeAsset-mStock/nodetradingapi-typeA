@@ -447,9 +447,11 @@ async function testModifyOrder(rl?: any, question?: (prompt: string) => Promise<
       const modifyParams: ModifyOrderParams = {
         order_id: orderId,
         variety: "regular",
-        quantity: 2,
-        price: 2500,
-        order_type: "LIMIT"
+        quantity:1,
+        disclosed_quantity: 0,
+        price: 6.15,
+        order_type: "LIMIT",
+        validity: "DAY"
       };
       
       const response = await mconnect.modifyOrder(modifyParams);
@@ -468,9 +470,11 @@ async function testModifyOrder(rl?: any, question?: (prompt: string) => Promise<
     const modifyParams: ModifyOrderParams = {
       order_id: orderId,
       variety: "regular",
-      quantity: 2,
-      price: 2500,
-      order_type: "LIMIT"
+      quantity:1,
+      disclosed_quantity: 0,
+      price: 6.15,
+      order_type: "LIMIT",
+      validity: "DAY"
     };
     
     const response = await mconnect.modifyOrder(modifyParams);
@@ -651,7 +655,7 @@ async function testIntradayData() {
   console.log('\n=== Testing Intraday Data ===');
   try {
     const response = await mconnect.getIntradayChartData("1", "AUBANK", "5minute");
-    console.log('Intraday data:', response);
+    console.log('Intraday data:', JSON.stringify(response, null, 2));
     return true;
   } catch (error) {
     console.error('Intraday data failed:', error);
