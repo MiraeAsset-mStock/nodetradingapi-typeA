@@ -1,6 +1,6 @@
 # TradingAPI TypeA TypeScript/JavaScript SDK
 
-[![npm version](https://badge.fury.io/js/mconnecttypea.svg)](https://www.npmjs.com/package/@mstock-mirae-asset/nodetradingapi-typeA)
+[![npm version](https://badge.fury.io/js/@mstock-mirae-asset%2Fnodetradingapi-typea.svg)](https://www.npmjs.com/package/@mstock-mirae-asset/nodetradingapi-typea)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
 
@@ -19,16 +19,16 @@ mStock TypeA is a comprehensive trading API that provides capabilities required 
 
 ## Installation
 
-Install via [npm](https://www.npmjs.com/package/@mstock-mirae-asset/nodetradingapi-typeA)
+Install via [npm](https://www.npmjs.com/package/@mstock-mirae-asset/nodetradingapi-typea)
 
 ```bash
-npm install @mstock-mirae-asset/nodetradingapi-typeA
+npm install @mstock-mirae-asset/nodetradingapi-typea
 ```
 
 ## Getting started with API
 
 ```typescript
-import { MConnect } from '@mstock-mirae-asset/nodetradingapi-typeA';
+import { MConnect } from '@mstock-mirae-asset/nodetradingapi-typea';
 
 const apiKey = "your_api_key";
 const username = "your_username";
@@ -89,7 +89,7 @@ init();
 ## Getting started with WebSocket client
 
 ```typescript
-import { MTicker } from '@mstock-mirae-asset/nodetradingapi-typeA';
+import { MTicker } from '@mstock-mirae-asset/nodetradingapi-typea';
 
 const apiKey = "your_api_key";
 const accessToken = "generated_access_token";
@@ -241,7 +241,7 @@ npm run test
 ### WebSocket Usage Example
 
 ```typescript
-import { MTicker } from '@mstock-mirae-asset/nodetradingapi-typeA';
+import { MTicker } from '@mstock-mirae-asset/nodetradingapi-typea';
 
 const ticker = new MTicker({
   api_key: "your_api_key",
