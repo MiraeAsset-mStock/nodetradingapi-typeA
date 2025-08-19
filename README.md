@@ -1,16 +1,16 @@
-# The mConnect TradingAPI TypeA TypeScript/JavaScript SDK
+# TradingAPI TypeA TypeScript/JavaScript SDK
 
-[![npm version](https://badge.fury.io/js/mconnecttypea.svg)](https://www.npmjs.com/package/@mstock/mconnecta)
+[![npm version](https://badge.fury.io/js/mconnecttypea.svg)](https://www.npmjs.com/package/@mstock-mirae-asset/nodetradingapi-typeA)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
 
-The official TypeScript/JavaScript client for communicating with the MConnect TypeA Trading API.
+The official TypeScript/JavaScript client for communicating with the TypeA Trading API.
 
-MConnect TypeA is a comprehensive trading API that provides capabilities required to build a complete investment and trading platform. Execute orders in real time, manage user portfolio, stream live market data (WebSockets), and more.
+mStock TypeA is a comprehensive trading API that provides capabilities required to build a complete investment and trading platform. Execute orders in real time, manage user portfolio, stream live market data (WebSockets), and more.
 
 ## Documentation
 
-- [mConnect API documentation](https://tradingapi.mstock.com/)
+- [TradingAPI Documentation](https://tradingapi.mstock.com/)
 - [Examples](./examples/)
 
 ## Requirements
@@ -19,16 +19,16 @@ MConnect TypeA is a comprehensive trading API that provides capabilities require
 
 ## Installation
 
-Install via [npm](https://www.npmjs.com/package/@mstock/mconnecta)
+Install via [npm](https://www.npmjs.com/package/@mstock-mirae-asset/nodetradingapi-typeA)
 
 ```bash
-npm install @mstock/mconnecta
+npm install @mstock-mirae-asset/nodetradingapi-typeA
 ```
 
 ## Getting started with API
 
 ```typescript
-import { MConnect } from '@mstock/mconnecta';
+import { MConnect } from '@mstock-mirae-asset/nodetradingapi-typeA';
 
 const apiKey = "your_api_key";
 const username = "your_username";
@@ -89,7 +89,7 @@ init();
 ## Getting started with WebSocket client
 
 ```typescript
-import { MTicker } from '@mstock/mconnecta';
+import { MTicker } from '@mstock-mirae-asset/nodetradingapi-typeA';
 
 const apiKey = "your_api_key";
 const accessToken = "generated_access_token";
@@ -241,7 +241,7 @@ npm run test
 ### WebSocket Usage Example
 
 ```typescript
-import { MTicker } from '@mstock/mconnecta';
+import { MTicker } from '@mstock-mirae-asset/nodetradingapi-typeA';
 
 const ticker = new MTicker({
   api_key: "your_api_key",
@@ -289,7 +289,7 @@ In a typical web application where a new instance of views, controllers etc. are
 
 Hence, in your web application, typically:
 
-- You will initialise an instance of the MConnect client
+- You will initialise an instance of the mConnect client
 - Use the `login()` method to trigger OTP
 - At the OTP verification step, obtain the OTP from user input
 - Use `generateSession()` to obtain the `access_token` along with authenticated user data
