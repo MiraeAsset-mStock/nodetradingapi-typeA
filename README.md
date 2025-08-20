@@ -313,7 +313,7 @@ Check the test files for detailed examples:
 
 MIT License - see [LICENSE](LICENSE) file for details.
 
-m.Stock By Mirae Asset Capital Markets (India) Pvt. Ltd. (c) 2025. Licensed under the MIT License.
+mStock By Mirae Asset Capital Markets (India) Pvt. Ltd. (c) 2025. Licensed under the MIT License.
 
 
 ## Support
