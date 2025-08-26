@@ -348,7 +348,7 @@ export interface FeedData {
     /** Array of bid depth items */
     Bids?: DepthItem[];
     /** Array of offer depth items */
-    Offers?: DepthItem[];
+    Ask?: DepthItem[];
     /** Time of last trade */
     LastTradeTime?: Date | null;
     /** Open interest (for derivatives) */
