@@ -405,10 +405,10 @@ export class MTicker {
         }
 
         // Read offer data
-        tick.Offers = [];
+        tick.Ask = [];
         let offerOffset = bidOffset;
         for (let i = 0; i < 5; i++) {
-            tick.Offers.push({
+            tick.Ask.push({
                 Quantity: view.getUint32(offerOffset, false),
                 Price: view.getUint32(offerOffset + 4, false) / divisor,
                 Orders: view.getUint16(offerOffset + 8, false),
