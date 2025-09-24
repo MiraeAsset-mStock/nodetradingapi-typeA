@@ -89,24 +89,6 @@ Each test will show:
 - **Success**: Method works correctly
 - **Failure**: Method has issues (with error details)
 
-Example output:
-```
-=== Testing Fund Summary ===
-Fund Summary Response: {
-  "status": "success",
-  "data": [...]
-}
-
-=== Testing Place Order ===
-Place order failed: API Error: price is greater than upper circuit price (MiraeException)
-
-Test Results Summary:
-========================
-PASS - Fund Summary
-FAIL - Place Order
-
-1/2 tests passed
-```
 
 ## Authentication Flow
 
