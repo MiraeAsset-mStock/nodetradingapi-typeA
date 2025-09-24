@@ -1,7 +1,7 @@
 {
-  "name": "mconnecttypea",
+  "name": "nodetradingapi-typeA",
   "version": "1.0.1",
-  "description": "The official TypeScript/JavaScript client for MConnect TypeA Trading API",
+  "description": "The official TypeScript/JavaScript client for mStock TypeA Trading API",
   "main": "dist/lib/index.js",
   "types": "dist/lib/index.d.ts",
   "module": "dist/lib/index.js",
@@ -34,13 +34,12 @@
     "real-time-data"
   ],
   "author": {
-    "name": "MConnect Team",
-    "email": "support@mconnect.com"
+    "name": "mStock Team"
   },
   "license": "MIT",
-  "homepage": "https://www.npmjs.com/package/mconnecttypea",
+  "homepage": "https://www.npmjs.com/package/nodetradingapi-typeA",
   "bugs": {
-    "url": "https://www.npmjs.com/package/mconnecttypea"
+    "url": "https://www.npmjs.com/package/nodetradingapi-typeA"
   },
   "engines": {
     "node": ">=18.0.0"
@@ -72,7 +71,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://www.npmjs.com/package/mconnecttypea"
+    "url": "https://www.npmjs.com/package/nodetradingapi-typeA"
   },
   "publishConfig": {
     "access": "public",
