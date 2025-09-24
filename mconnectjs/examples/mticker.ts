@@ -63,14 +63,14 @@ function onDisconnect(): void {
  * Handle WebSocket errors
  */
 function onError(event: Event): void {
-  console.error('🚨 WebSocket Error:', event);
+  console.error('WebSocket Error:', event);
 }
 
 /**
  * Handle WebSocket connection close
  */
 function onClose(): void {
-  console.log('🔒 WebSocket Connection Closed');
+  console.log('WebSocket Connection Closed');
 }
 
 /**
@@ -78,7 +78,7 @@ function onClose(): void {
  * This is called when there are updates to your orders
  */
 function onOrderUpdate(order: TypeAUpdate): void {
-  console.log('📋 Order Update Received:');
+  console.log('Order Update Received:');
   console.log(`Order ID: ${order.order_id}`);
   console.log(`Status: ${order.status}`);
   console.log(`Symbol: ${order.tradingsymbol}`);
@@ -90,14 +90,14 @@ function onOrderUpdate(order: TypeAUpdate): void {
  * Handle auto-reconnection attempts
  */
 function onReconnecting(attempt: number, maxAttempts: number): void {
-  console.log(`🔄 Reconnecting... Attempt: ${attempt}/${maxAttempts}`);
+  console.log(`Reconnecting... Attempt: ${attempt}/${maxAttempts}`);
 }
 
 /**
  * Setup WebSocket Event Listeners
  */
 function setupEventListeners(): void {
-  console.log('🎧 Setting up event listeners...');
+  console.log('Setting up event listeners...');
   
   // Core events
   ticker.onBroadcastReceived = onTicks;
@@ -107,7 +107,7 @@ function setupEventListeners(): void {
   ticker.onOrderTradeReceived = onOrderUpdate;
   ticker.onReconnecting = onReconnecting;
   
-  console.log('✅ Event listeners configured');
+  console.log('Event listeners configured');
 }
 
 /**
@@ -119,7 +119,7 @@ function demonstrateSubscriptionManagement(): void {
   setTimeout(() => {
     // Add more instruments after 10 seconds
     const additionalTokens = [177665, 225537]; // WIPRO, ONGC
-    console.log('➕ Adding more subscriptions:', additionalTokens);
+    console.log('Adding more subscriptions:', additionalTokens);
     ticker.subscribe(additionalTokens);
 
   }, 10000);
@@ -134,7 +134,7 @@ function demonstrateSubscriptionManagement(): void {
   setTimeout(() => {
     // Show current subscriptions after 25 seconds
     const currentTokens = ticker.getSubscribedTokens();
-    console.log('📋 Currently subscribed tokens:', currentTokens);
+    console.log('Currently subscribed tokens:', currentTokens);
   }, 25000);
 }
 
@@ -145,17 +145,17 @@ function demonstrateConnectionManagement(): void {
   console.log('\n=== Connection Management Demo ===');
   
   setTimeout(() => {
-    console.log('🔍 Connection Status:', ticker.isConnected() ? 'Connected' : 'Disconnected');
+    console.log('Connection Status:', ticker.isConnected() ? 'Connected' : 'Disconnected');
   }, 5000);
   
   // Demonstrate manual disconnect and reconnect
   setTimeout(() => {
-    console.log('🔌 Manually disconnecting...');
+    console.log('Manually disconnecting...');
     ticker.disconnect();
   }, 30000);
   
   setTimeout(() => {
-    console.log('🔌 Manually reconnecting...');
+    console.log('Manually reconnecting...');
     ticker.connect();
   }, 35000);
 }
@@ -164,8 +164,8 @@ function demonstrateConnectionManagement(): void {
  * Setup auto-reconnection with custom parameters
  */
 function setupAutoReconnection(): void {
-  console.log('🔄 Auto-reconnection is built-in with MTicker');
-  console.log('✅ Auto-reconnection enabled by default');
+  console.log('Auto-reconnection is built-in with MTicker');
+  console.log('Auto-reconnection enabled by default');
 }
 
 /**
@@ -173,14 +173,14 @@ function setupAutoReconnection(): void {
  */
 function setupGracefulShutdown(): void {
   const gracefulShutdown = () => {
-    console.log('\n🛑 Shutting down gracefully...');
+    console.log('\n Shutting down gracefully...');
     
     if (ticker.isConnected()) {
       ticker.disconnect();
     }
     
     setTimeout(() => {
-      console.log('👋 Goodbye!');
+      console.log('Goodbye!');
       process.exit(0);
     }, 1000);
   };
@@ -198,9 +198,9 @@ function displayStats(): void {
   setInterval(() => {
     if (ticker.isConnected()) {
       const subscribedTokens = ticker.getSubscribedTokens();
-      console.log(`📊 Stats - Connected: ✅, Subscribed Instruments: ${subscribedTokens.length}`);
+      console.log(`Stats - Connected , Subscribed Instruments: ${subscribedTokens.length}`);
     } else {
-      console.log('📊 Stats - Connected: ');
+      console.log('Stats - Connected');
     }
   }, 30000); // Every 30 seconds
 }
@@ -225,14 +225,14 @@ async function main(): Promise<void> {
     displayStats();
     
     // Connect to WebSocket
-    console.log('🚀 Starting WebSocket connection...');
+    console.log('Starting WebSocket connection...');
     ticker.connect();
     
     // Demonstrate advanced features
     demonstrateSubscriptionManagement();
     demonstrateConnectionManagement();
     
-    console.log('✅ MTicker client is running. Press Ctrl+C to stop.\n');
+    console.log('MTicker client is running. Press Ctrl+C to stop.\n');
     
   } catch (error) {
     console.error(' Failed to start MTicker client:', error);
@@ -252,7 +252,7 @@ function advancedTickProcessing(tick: FeedData): void {
   if (tick.LastPrice && tick.Close) {
     const changePercent = ((tick.LastPrice - tick.Close) / tick.Close) * 100;
     if (Math.abs(changePercent) > 2) { // More than 2% change
-      console.log('🚨 Significant price movement detected:');
+      console.log('Significant price movement detected:');
       console.log(`${tick.InstrumentToken}: ${changePercent.toFixed(2)}% change`);
     }
   }
@@ -265,16 +265,16 @@ function advancedOrderProcessing(order: TypeAUpdate): void {
   // Process different order statuses
   switch (order.status) {
     case 'COMPLETE':
-      console.log('✅ Order executed successfully:', order.order_id);
+      console.log('Order executed successfully:', order.order_id);
       break;
     case 'REJECTED':
       console.log(' Order rejected:', order.status_message);
       break;
     case 'CANCELLED':
-      console.log('🚫 Order cancelled:', order.order_id);
+      console.log('Order cancelled:', order.order_id);
       break;
     default:
-      console.log('📋 Order status update:', order.status);
+      console.log('Order status update:', order.status);
   }
 }
 
