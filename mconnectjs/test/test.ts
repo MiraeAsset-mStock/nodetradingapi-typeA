@@ -1031,7 +1031,7 @@ async function runInteractiveTest() {
       case '31': await testLogout(); break;
       case '32': await runAllTests(); break;
       case '0':
-        console.log('👋 Goodbye!');
+        console.log('Goodbye!');
         logger.logSessionEnd();
         rl.close();
         return;
