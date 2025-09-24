@@ -1,6 +1,6 @@
-# Testing MConnect SDK
+# nodetradingapi-typeA SDK
 
-This folder contains testing utilities to validate individual SDK methods before public release.
+This folder contains utilities to validate individual SDK methods before public release.
 
 ## Quick Start
 
