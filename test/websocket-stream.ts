@@ -24,8 +24,8 @@ async function startWebSocketStream() {
       console.log('WebSocket connected successfully!');
       mTicker.sendLoginAfterConnect();
       mTicker.subscribe([22]);
-      mTicker.setMode('full', [22]);
-      console.log('Subscribed to token 5633 in full mode');
+      mTicker.setMode('quote', [22]);
+     
     };
     
     mTicker.onBroadcastReceived = (tick) => {
@@ -37,11 +37,7 @@ async function startWebSocketStream() {
       // Append to file
       fs.appendFileSync(feedsFile, logEntry);
       
-      console.log('Market data saved:', {
-        token: tick.InstrumentToken,
-        price: tick.LastPrice,
-        mode: tick.Mode
-      });
+      console.log('Ticks:', [tick]);
     };
     
     mTicker.onOrderTradeReceived = (order) => {

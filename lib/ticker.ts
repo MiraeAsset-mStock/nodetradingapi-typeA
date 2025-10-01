@@ -19,6 +19,8 @@ export class MTicker {
     private ws: WebSocket | null = null;
     private reconnectionAttempts: number = 0;
     private subscribedTokens: Set<number> = new Set();
+    private currentMode: string = 'full';
+    private tokenModes: Map<number, string> = new Map();
     private isManualClose: boolean = false;
 
     // Event handlers
@@ -256,6 +258,7 @@ export class MTicker {
      */
     private parseTickData(view: DataView, offset: number, length: number): FeedData | null {
         try {
+
             switch (length) {
                 case 8:
                     return this.readLTPBroadcast(view, offset);
@@ -264,9 +267,8 @@ export class MTicker {
                 case 32:
                     return this.readFullIndex(view, offset);
                 case 44:
-                    return this.readQuote(view, offset);
                 case 184:
-                    return this.readFullFeed(view, offset);
+                    return this.readModeBasedData(view, offset, length);
                 default:
                     console.warn(`Unknown packet length: ${length}`);
                     return null;
@@ -275,6 +277,83 @@ export class MTicker {
             console.error('Error parsing tick data:', error);
             return null;
         }
+    }
+
+    /**
+     * Reads data based on requested mode
+     */
+    private readModeBasedData(view: DataView, offset: number, length: number): FeedData {
+        const instrumentToken = view.getUint32(offset, false);
+        const requestedMode = this.getTokenMode(instrumentToken);
+        
+        // For quote mode, extract only quote data regardless of packet size
+        if (requestedMode === 'quote') {
+            return this.createQuoteFromPacket(view, offset, length);
+        }
+        
+        // For LTP mode, extract only LTP data
+        if (requestedMode === 'ltp') {
+            return this.createLTPFromPacket(view, offset, instrumentToken);
+        }
+        
+        // Default to full mode parsing
+        return length === 44 ? this.readQuote(view, offset) : this.readFullFeed(view, offset);
+    }
+    
+    private createQuoteFromPacket(view: DataView, offset: number, length: number): FeedData {
+        const instrumentToken = view.getUint32(offset, false);
+        const divisor = Utils.getDecimalDivisor(instrumentToken);
+        
+        return {
+            Mode: 'quote',
+            InstrumentToken: instrumentToken,
+            Tradable: (instrumentToken & 0xff) !== 9,
+            LastPrice: view.getUint32(offset + 4, false) / divisor,
+            LastQuantity: length >= 12 ? view.getUint32(offset + 8, false) : 0,
+            AveragePrice: length >= 16 ? view.getUint32(offset + 12, false) / divisor : 0,
+            Volume: length >= 20 ? view.getUint32(offset + 16, false) : 0,
+            BuyQuantity: length >= 24 ? view.getUint32(offset + 20, false) : 0,
+            SellQuantity: length >= 28 ? view.getUint32(offset + 24, false) : 0,
+            Open: length >= 32 ? view.getUint32(offset + 28, false) / divisor : 0,
+            High: length >= 36 ? view.getUint32(offset + 32, false) / divisor : 0,
+            Low: length >= 40 ? view.getUint32(offset + 36, false) / divisor : 0,
+            Close: length >= 44 ? view.getUint32(offset + 40, false) / divisor : 0
+        };
+    }
+    
+    private createLTPFromPacket(view: DataView, offset: number, instrumentToken: number): FeedData {
+        const divisor = Utils.getDecimalDivisor(instrumentToken);
+        const lastPrice = view.getUint32(offset + 4, false) / divisor;
+
+        
+        return {
+            Mode: 'ltp',
+            InstrumentToken: instrumentToken,
+            Tradable: (instrumentToken & 0xff) !== 9,
+            LastPrice: lastPrice,
+            LastQuantity: 0,
+            AveragePrice: 0.0,
+            Volume: 0,
+            BuyQuantity: 0,
+            SellQuantity: 0,
+            Open: 0.0,
+            High: 0.0,
+            Low: 0.0,
+            Close: 0.0,
+            Change: 0.0,
+            LastTradeTime: null,
+            OI: 0,
+            OIDayHigh: 0,
+            OIDayLow: 0,
+            Timestamp: null
+        };
+    }
+    
+    /**
+     * Get the requested mode for a token
+     */
+    private getTokenMode(token: number): string {
+        return this.tokenModes.get(token) || 'full';
     }
 
     /**
@@ -318,6 +397,7 @@ export class MTicker {
      */
     private readFullIndex(view: DataView, offset: number): FeedData {
         const instrumentToken = view.getUint32(offset, false);
+        const requestedMode = this.getTokenMode(instrumentToken);
         const divisor = Utils.getDecimalDivisor(instrumentToken);
         const lastPrice = view.getUint32(offset + 4, false) / divisor;
         const high = view.getUint32(offset + 8, false) / divisor;
@@ -325,6 +405,30 @@ export class MTicker {
         const open = view.getUint32(offset + 16, false) / divisor;
         const close = view.getUint32(offset + 20, false) / divisor;
         const time = view.getUint32(offset + 28, false);
+
+        // Return data based on requested mode
+        if (requestedMode === 'quote') {
+            return {
+                Mode: 'quote',
+                InstrumentToken: instrumentToken,
+                Tradable: (instrumentToken & 0xff) !== 9,
+                LastPrice: lastPrice,
+                High: high,
+                Low: low,
+                Open: open,
+                Close: close,
+                Change: lastPrice - close
+            };
+        }
+        
+        if (requestedMode === 'ltp') {
+            return {
+                Mode: 'ltp',
+                InstrumentToken: instrumentToken,
+                Tradable: (instrumentToken & 0xff) !== 9,
+                LastPrice: lastPrice
+            };
+        }
 
         return {
             Mode: 'full',
@@ -437,9 +541,28 @@ export class MTicker {
      * Set streaming mode for tokens
      */
     public setMode(mode: 'ltp' | 'quote' | 'full', tokens: number[]): void {
+        // Always track the mode for tokens
+        this.currentMode = mode;
+        tokens.forEach(token => {
+            this.tokenModes.set(token, mode);
+        });
+        
+        // Send message only if connected
         if (this.ws && this.ws.readyState === WebSocket.OPEN) {
             const message = JSON.stringify({ a: 'mode', v: [mode, tokens] });
             this.ws.send(message);
+        }
+    }
+
+    /**
+     * Subscribe with specific mode
+     */
+    public subscribeWithMode(mode: 'ltp' | 'quote' | 'full', tokens: number[]): void {
+        if (this.ws && this.ws.readyState === WebSocket.OPEN) {
+            const message = JSON.stringify({ a: 'subscribe', v: { [mode]: tokens } });
+
+            this.ws.send(message);
+            tokens.forEach(token => this.subscribedTokens.add(token));
         }
     }
 }
