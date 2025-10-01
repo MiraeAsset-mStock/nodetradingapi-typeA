@@ -297,7 +297,7 @@ async function testInstruments() {
 async function testOHLC() {
   console.log('\n=== Testing OHLC ===');
   try {
-    const ohlc = await mconnect.getOHLC(["NSE:RELIANCE"]);
+    const ohlc = await mconnect.getOHLC(["NSE:RELIANCE","NSE:SBIN","BSE:SENSEX"]);
     const logLine = `${new Date().toISOString()} - OHLC Data: ${JSON.stringify(ohlc)}\n`;
     fs.appendFileSync(path.join(__dirname, 'logs', `operations-${new Date().toISOString().split('T')[0]}.log`), logLine);
     console.log('OHLC:', JSON.stringify(ohlc, null, 2));
