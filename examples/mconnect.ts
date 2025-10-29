@@ -111,7 +111,8 @@ async function orderManagement() {
       validity: "DAY",
       trigger_price: 0,
       disclosed_quantity: 0,
-      variety: "regular"
+      variety: "regular",
+      tag: "my_order_001"
     };
     
     const orderResponse = await mconnect.placeOrder(orderParams);

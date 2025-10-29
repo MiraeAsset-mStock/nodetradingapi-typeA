@@ -405,10 +405,11 @@ async function testPlaceOrder() {
     transaction_type: "BUY",
     quantity: 1,
     product: "CNC",
-    order_type: "LIMIT",
-    price:6.50,
+    order_type: "MARKET",
+    price:0,
     trigger_price: 0,
-    variety: "regular"
+    variety: "regular",
+    tag: "my_order_001"
   };
   
   try {
