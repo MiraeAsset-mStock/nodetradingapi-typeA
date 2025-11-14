@@ -222,6 +222,7 @@ async function marketData() {
     // Get historical candle data
     try {
       const historicalData = await mconnect.getHistoricalCandleData(
+        "NSE",
         26000, 
         "day",
         "2025-06-04+09%3A15%3A00",
@@ -234,7 +235,7 @@ async function marketData() {
     
     // Get intraday chart data
     try {
-      const intradayData = await mconnect.getIntradayChartData("4", "SENSEX", "5minute");
+      const intradayData = await mconnect.getIntradayChartData("4", "51", "5minute");
       console.log('Intraday Data:', JSON.stringify(intradayData, null, 2));
     } catch (error: any) {
       console.error('Intraday Data Error:', error.message);

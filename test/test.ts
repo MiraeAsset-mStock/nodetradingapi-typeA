@@ -633,10 +633,11 @@ async function testHistoricalData() {
   console.log('\n=== Testing Historical Data ===');
   try {
     const response = await mconnect.getHistoricalCandleData(
-      26000, 
-      "day",
-      "2024-01-01",
-      "2024-01-31"
+      "BFO",
+      875891, 
+      "minute",
+      "2025-11-10",
+      "2025-11-13"
     );
     
     const logLine = `${new Date().toISOString()} - Historical Data Response: ${JSON.stringify(response)}\n`;
@@ -655,7 +656,7 @@ async function testHistoricalData() {
 async function testIntradayData() {
   console.log('\n=== Testing Intraday Data ===');
   try {
-    const response = await mconnect.getIntradayChartData("1", "AUBANK", "5minute");
+    const response = await mconnect.getIntradayChartData("5", "51", "5minute");
     console.log('Intraday data:', JSON.stringify(response, null, 2));
     return true;
   } catch (error) {
