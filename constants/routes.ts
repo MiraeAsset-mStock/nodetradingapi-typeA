@@ -23,8 +23,8 @@
  * @property {string} losergainer - Get top losers and gainers for the day
  * @property {string} netpositions - Get current net positions across all instruments
  * @property {string} holdings - Get current portfolio holdings
- * @property {string} historicalcandledata - Get historical candle data with {instrument_token} and {interval} parameters
- * @property {string} intradychartdata - Get intraday chart data with {exchange}, {scriptName}, and {interval} parameters
+ * @property {string} historicalcandledata - Get historical candle data with {exchange}, {instrument_token} and {interval} parameters
+ * @property {string} intradychartdata - Get intraday chart data with {exchange}, {instrument_token}, and {interval} parameters
  * @property {string} scriptmaster - Get complete script master data for all instruments
  * @property {string} ohlcdata - Get OHLC (Open, High, Low, Close) quote data
  * @property {string} ltpdata - Get Last Traded Price (LTP) data
@@ -53,6 +53,7 @@
  * 
  * // Historical data with parameters
  * const historicalUrl = ROUTES.historicalcandledata
+ *   .replace('{exchange}', 'NSE')
  *   .replace('{instrument_token}', '256265')
  *   .replace('{interval}', '15minute');
  * 
@@ -91,9 +92,9 @@ export const ROUTES = {
     /** @type {string} Holdings endpoint - GET request for portfolio holdings */
     holdings: "/openapi/typea/portfolio/holdings",
     /** @type {string} Historical candle data endpoint - GET request with {instrument_token} and {interval} parameters */
-    historicalcandledata: "/openapi/typea/instruments/historical/{instrument_token}/{interval}",
-    /** @type {string} Intraday chart data endpoint - GET request with {exchange}, {scriptName}, and {interval} parameters */
-    intradychartdata: "/openapi/typea/instruments/intraday/{exchange}/{scriptName}/{interval}",
+    historicalcandledata: "/openapi/typea/instruments/historical/{exchange}/{instrument_token}/{interval}",
+    /** @type {string} Intraday chart data endpoint - GET request with {exchange}, {instrument_token}, and {interval} parameters */
+    intradychartdata: "/openapi/typea/instruments/intraday/{exchange}/{instrument_token}/{interval}",
     /** @type {string} Script master endpoint - GET request for complete instrument list */
     scriptmaster: "/openapi/typea/instruments/scriptmaster",
     /** @type {string} OHLC data endpoint - GET request for Open, High, Low, Close quotes */

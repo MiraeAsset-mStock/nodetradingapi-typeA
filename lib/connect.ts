@@ -279,8 +279,9 @@ export class MConnect {
         return this.executeRequest({ method: 'GET', url: ROUTES.ltpdata, params });
     }
 
-    public async getHistoricalCandleData(instrument_token: number, interval: string, from: string, to: string): Promise<any> {
+    public async getHistoricalCandleData(exchange:string,instrument_token: number, interval: string, from: string, to: string): Promise<any> {
         const route = this.buildRoute('historicalcandledata', { 
+            exchange: exchange,
             instrument_token: String(instrument_token), 
             interval 
         });
@@ -291,8 +292,8 @@ export class MConnect {
         });
     }
 
-    public async getIntradayChartData(exchange: string, scriptName: string, interval: string): Promise<any> {
-        const route = this.buildRoute('intradychartdata', { exchange, scriptName, interval });
+    public async getIntradayChartData(exchange: string, instrument_token: string, interval: string): Promise<any> {
+        const route = this.buildRoute('intradychartdata', { exchange, instrument_token, interval });
         return this.executeRequest({ method: 'GET', url: route });
     }
 
