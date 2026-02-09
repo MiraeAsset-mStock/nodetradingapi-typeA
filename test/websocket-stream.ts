@@ -24,7 +24,7 @@ async function startWebSocketStream() {
       console.log('WebSocket connected successfully!');
       mTicker.sendLoginAfterConnect();
       mTicker.subscribe([22]);
-      mTicker.setMode('quote', [22]);
+      mTicker.setMode('full', [22]);// Available mode - full, quote and ltp , Subscribe to full mode for the specified instrument token (22)
      
     };
     
@@ -34,10 +34,7 @@ async function startWebSocketStream() {
       
       const logEntry = `${timestamp} Ticks: [${JSON.stringify(tick)}]\n`;
       
-      // Append to file
       fs.appendFileSync(feedsFile, logEntry);
-      
-      console.log('Ticks:', [tick]);
     };
     
     mTicker.onOrderTradeReceived = (order) => {

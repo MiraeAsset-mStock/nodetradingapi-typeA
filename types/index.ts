@@ -315,6 +315,10 @@ export interface ConvertPositionParams {
  * @property {number} [OIDayHigh] - Day's high open interest
  * @property {number} [OIDayLow] - Day's low open interest
  * @property {Date|null} [Timestamp] - Data timestamp
+ * @property {number} [UpperCircuit] - Upper circuit limit
+ * @property {number} [LowerCircuit] - Lower circuit limit
+ * @property {number} [YearHigh] - 52-week high price
+ * @property {number} [YearLow] - 52-week low price
  */
 export interface FeedData {
     /** Data mode (full, quote, ltp) */
@@ -348,7 +352,7 @@ export interface FeedData {
     /** Array of bid depth items */
     Bids?: DepthItem[];
     /** Array of offer depth items */
-    Ask?: DepthItem[];
+    Offers?: DepthItem[];
     /** Time of last trade */
     LastTradeTime?: Date | null;
     /** Open interest (for derivatives) */
@@ -359,6 +363,14 @@ export interface FeedData {
     OIDayLow?: number;
     /** Data timestamp */
     Timestamp?: Date | null;
+    /** Upper circuit limit */
+    UpperCircuit?: number;
+    /** Lower circuit limit */
+    LowerCircuit?: number;
+    /** 52-week high price */
+    YearHigh?: number;
+    /** 52-week low price */
+    YearLow?: number;
 }
 
 /**
