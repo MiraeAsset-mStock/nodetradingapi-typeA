@@ -268,6 +268,7 @@ export class MTicker {
                     return this.readFullIndex(view, offset);
                 case 44:
                 case 184:
+                case 200:
                     return this.readModeBasedData(view, offset, length);
                 default:
                     console.warn(`Unknown packet length: ${length}`);
@@ -297,7 +298,11 @@ export class MTicker {
         }
         
         // Default to full mode parsing
-        return length === 44 ? this.readQuote(view, offset) : this.readFullFeed(view, offset);
+        if (length === 44) {
+            return this.readQuote(view, offset);
+        } else {
+            return this.readFullFeed(view, offset, length);
+        }
     }
     
     private createQuoteFromPacket(view: DataView, offset: number, length: number): FeedData {
@@ -469,17 +474,19 @@ export class MTicker {
     }
 
     /**
-     * Reads full feed data (184 bytes)
+     * Reads full feed data (184 or 200 bytes)
      */
-    private readFullFeed(view: DataView, offset: number): FeedData {
+    private readFullFeed(view: DataView, offset: number, length: number): FeedData {
         const instrumentToken = view.getUint32(offset, false);
         const divisor = Utils.getDecimalDivisor(instrumentToken);
+        const lastPrice = view.getUint32(offset + 4, false) / divisor;
+        const close = view.getUint32(offset + 40, false) / divisor;
 
         const tick: FeedData = {
             Mode: 'full',
             InstrumentToken: instrumentToken,
             Tradable: (instrumentToken & 0xff) !== 9,
-            LastPrice: view.getUint32(offset + 4, false) / divisor,
+            LastPrice: lastPrice,
             LastQuantity: view.getUint32(offset + 8, false),
             AveragePrice: view.getUint32(offset + 12, false) / divisor,
             Volume: view.getUint32(offset + 16, false),
@@ -488,7 +495,8 @@ export class MTicker {
             Open: view.getUint32(offset + 28, false) / divisor,
             High: view.getUint32(offset + 32, false) / divisor,
             Low: view.getUint32(offset + 36, false) / divisor,
-            Close: view.getUint32(offset + 40, false) / divisor,
+            Close: close,
+            Change: 0,
             LastTradeTime: Utils.unixToDateTime(view.getUint32(offset + 44, false)),
             OI: view.getUint32(offset + 48, false),
             OIDayHigh: view.getUint32(offset + 52, false),
@@ -509,16 +517,22 @@ export class MTicker {
         }
 
         // Read offer data
-        tick.Ask = [];
+        tick.Offers = [];
         let offerOffset = bidOffset;
         for (let i = 0; i < 5; i++) {
-            tick.Ask.push({
+            tick.Offers.push({
                 Quantity: view.getUint32(offerOffset, false),
                 Price: view.getUint32(offerOffset + 4, false) / divisor,
                 Orders: view.getUint16(offerOffset + 8, false),
             });
             offerOffset += 12;
         }
+
+        // Read circuit limits and year high/low
+        tick.UpperCircuit = view.getUint32(offerOffset, false) / divisor;
+        tick.LowerCircuit = view.getUint32(offerOffset + 4, false) / divisor;
+        tick.YearHigh = view.getUint32(offerOffset + 8, false) / divisor;
+        tick.YearLow = view.getUint32(offerOffset + 12, false) / divisor;
 
         return tick;
     }
