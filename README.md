@@ -242,45 +242,50 @@ npm run test
 
 ```typescript
 import { MTicker } from '@mstock-mirae-asset/nodetradingapi-typea';
+// @ts-ignore
+const fs = require('fs');
+
+const apiKey = "your_api_key@";
+const accessToken = "generated_access_token";
+const feedsFile = './Websocket_ticks.log';
 
 const ticker = new MTicker({
-  api_key: "your_api_key",
-  access_token: "your_access_token"
+  api_key: apiKey,
+  access_token: accessToken
 });
 
-// Connect to WebSocket
+ticker.onBroadcastReceived = (tick) => {
+  const now = new Date();
+  const timestamp = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')},${String(now.getMilliseconds()).padStart(3, '0')}`;
+  const logEntry = `${timestamp} Ticks: [${JSON.stringify(tick)}]\n`;
+  fs.appendFileSync(feedsFile, logEntry);
+};
+
+ticker.onConnect = subscribe;
+ticker.onClose = onDisconnect;
+ticker.onError = onError;
+ticker.onOrderTradeReceived = onOrderUpdate;
+
 ticker.connect();
 
-// Event handlers
-ticker.onConnect = () => {
-  console.log('WebSocket connected');
+function subscribe(): void {
   ticker.sendLoginAfterConnect();
-  
-  // Subscribe to instruments
-  const tokens = [2885, 5633]; // RELIANCE, HDFCBANK
+  const tokens = [5633, 2885]; // Instrument tokens
   ticker.subscribe(tokens);
   ticker.setMode('full', tokens);
-};
+}
 
-ticker.onBroadcastReceived = (tick) => {
-  console.log('Market data:', {
-    token: tick.InstrumentToken,
-    ltp: tick.LastPrice,
-    volume: tick.Volume
-  });
-};
-
-ticker.onOrderTradeReceived = (order) => {
-  console.log('Order update:', order);
-};
-
-ticker.onError = (error) => {
-  console.error('WebSocket error:', error);
-};
-
-ticker.onClose = () => {
+function onDisconnect(): void {
   console.log('WebSocket disconnected');
-};
+}
+
+function onError(error: any): void {
+  console.log('WebSocket error:', error);
+}
+
+function onOrderUpdate(order: any): void {
+  console.log('Order update:', order);
+}
 ```
 
 ## A typical web application
